@@ -14,6 +14,7 @@ module.exports = {
             },
         }),
         new webpack.optimize.UglifyJsPlugin({
+            sourceMap: true, // https://github.com/mishoo/UglifyJS2#minify-options
             compress: {
                 warnings: false,
                 screw_ie8: true,
