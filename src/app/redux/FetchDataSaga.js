@@ -206,10 +206,21 @@ export function* getCommunity(action) {
  */
 export function* getSubscriptions(action) {
     if (!action.payload) throw 'no account specified';
-    const subscriptions = yield call(callBridge, 'list_all_subscriptions', {
-        account: action.payload,
-    });
-    yield put(globalActions.receiveSubscriptions(subscriptions));
+    yield put(globalActions.loadingSubscriptions(true));
+    try {
+        const subscriptions = yield call(callBridge, 'list_all_subscriptions', {
+            account: action.payload,
+        });
+        yield put(
+            globalActions.receiveSubscriptions({
+                subscriptions,
+                username: action.payload,
+            })
+        );
+    } catch (error) {
+        console.log('Error Fetching Account Subscriptions: ', error);
+    }
+    yield put(globalActions.loadingSubscriptions(false));
 }
 
 /**
@@ -228,6 +239,7 @@ export function* getAccountNotifications(action) {
             'account_notifications',
             action.payload
         );
+
         if (notifications && notifications.error) {
             console.error(
                 '~~ Saga getAccountNotifications error ~~>',
@@ -307,6 +319,9 @@ export function* markNotificationsAsReadSaga(action) {
                     successCallback(username, timeNow);
                 },
                 errorCallback: () => {
+                    console.log(
+                        'There was an error marking notifications as read!'
+                    );
                     globalActions.notificationsLoading(false);
                 },
             })
