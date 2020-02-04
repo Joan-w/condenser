@@ -34,6 +34,7 @@ class Header extends React.Component {
         startNotificationsPolling: PropTypes.func,
         loggedIn: PropTypes.bool,
         unreadNotificationCount: PropTypes.number,
+        nightmodeEnabled: PropTypes.bool,
     };
 
     constructor(props) {
@@ -133,6 +134,7 @@ class Header extends React.Component {
             walletUrl,
             unreadNotificationCount,
             notificationActionPending,
+            nightmodeEnabled,
         } = this.props;
 
         let { showAd, showAnnouncement } = this.state;
@@ -300,6 +302,17 @@ class Header extends React.Component {
                 }
             }
         };
+        const nightmodeToggle = (
+            <label className="dayNight">
+                <input
+                    className={nightmodeEnabled ? 'nightmode' : 'daymode'}
+                    type="checkbox"
+                    checked={nightmodeEnabled}
+                    onClick={toggleNightmode}
+                />
+                <div />
+            </label>
+        );
         return (
             <ReactMutationObserver onChildListChanged={headerMutated}>
                 <Headroom
@@ -376,6 +389,8 @@ class Header extends React.Component {
 
                                 {/*SUBMIT STORY*/}
                                 {submit_story}
+                                {/*NIGHTMODE TOGGLE*/}
+                                {nightmodeToggle}
                                 {/*USER AVATAR */}
                                 {loggedIn && (
                                     <DropdownMenu
@@ -477,7 +492,7 @@ const mapStateToProps = (state, ownProps) => {
         username,
         loggedIn,
         community: state.global.get('community', Map({})),
-        nightmodeEnabled: state.user.getIn(['user_preferences', 'nightmode']),
+        nightmodeEnabled: state.app.getIn(['user_preferences', 'nightmode']),
         display_name,
         current_account_name,
         showAnnouncement: state.user.get('showAnnouncement'),
