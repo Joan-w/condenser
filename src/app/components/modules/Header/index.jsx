@@ -279,12 +279,14 @@ class Header extends React.Component {
             { link: comments_link, icon: 'chatbox', value: tt('g.comments') },
             { link: replies_link, icon: 'reply', value: tt('g.replies') },
             //{ link: settings_link, icon: 'cog', value: tt('g.settings') },
+            /*
             {
                 link: '#',
                 icon: 'eye',
                 onClick: toggleNightmode,
                 value: tt('g.toggle_nightmode'),
             },
+            */
             { link: wallet_link, icon: 'wallet', value: tt('g.wallet') },
             {
                 link: '#',

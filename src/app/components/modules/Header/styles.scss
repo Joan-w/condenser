@@ -203,6 +203,7 @@ $dayBtn: $color-teal;
 
 .dayNight {
     cursor: pointer;
+    padding-right: 0.5rem;
     input {
         display: none;
         & + div {
